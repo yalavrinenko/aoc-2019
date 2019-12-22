@@ -51,9 +51,20 @@ public:
     return nullptr;
   }
 
-  InstructionType input() { auto v = input_.front(); input_.pop(); return v; }
+  InstructionType input() {
+    if (!input_.empty()) {
+      auto v = input_.front();
+      input_.pop();
+      return v;
+    } else {
+      if (input_cb_ != nullptr)
+        return input_cb_();
+      else
+        throw std::runtime_error("No input value!");
+    }
+  }
 
-  void input(long v) { input_.push(v); }
+  Memory<InstructionType>& input(long v) { input_.push(v); return *this; }
 
   InstructionType output() { auto v = output_.front(); output_.pop(); return v; }
 
@@ -61,13 +72,21 @@ public:
 
   bool have_out() const { return !output_.empty(); }
 
+  int output_count() const { return output_.size(); }
+
   long ip() const { return ip_; }
 
   long& relative_base() {
     return relative_base_;
   }
 
+  Memory<InstructionType>& operator<< (long v) { return input(v); }
+  Memory<InstructionType>& operator>> (long &v){
+    v = output(); return *this;
+  }
+
   std::function<void(long)> output_cb_ = nullptr;
+  std::function<int()> input_cb_ = nullptr;
 protected:
   long relative_base_ = 0;
   std::queue<InstructionType> input_{};
