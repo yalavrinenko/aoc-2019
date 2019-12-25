@@ -96,6 +96,8 @@ protected:
 
 class IntComputer{
 public:
+  IntComputer() = default;
+
   explicit IntComputer(std::string const &code){
     std::istringstream iss(code);
     std::string op;

@@ -15,3 +15,8 @@ add_executable(aoc_18 day_18.cpp)
 add_executable(aoc_19 day_19.cpp)
 add_executable(aoc_21 day_21.cpp)
 add_executable(aoc_22 day_22.cpp)
+add_executable(aoc_23 day_23.cpp)
+target_link_libraries(aoc_23 pthread)
+
+add_executable(aoc_24 day_24.cpp)
+add_executable(aoc_25 day_25.cpp)
